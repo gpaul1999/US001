@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Controller;
@@ -37,6 +39,7 @@ public class AdminController {
 	private List<String> lsGender = Arrays.asList("Male", "Female", "Unknown");
 	private List<String> lsMarital = Arrays.asList("Single", "Married", "Divorced");
 	private List<String> lsCountry = Arrays.asList("Vietnam", "Malaysia", "Singapore", "United States");
+	private static final Log log = LogFactory.getLog(AdminController.class);
 	
 	@Autowired
 	private UserDAO userDao;
@@ -84,6 +87,7 @@ public class AdminController {
 		model.addAttribute("lsMarital", lsMarital);
 		model.addAttribute("lsCountry", lsCountry);
 		if(result.hasErrors()) {
+			log.error("==========ADD USER FAIL!==========");
 			return "add_form";
 		}
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -101,9 +105,11 @@ public class AdminController {
 		System.out.println(user);
 		try {
 			userDao.addUser(user);
+			log.error("==========ADD USER SUCESSFULLY!==========");
 		} catch (Exception e) {
 			String message = e.getMessage();
 			model.addAttribute("message", message);
+			log.error("==========ADD USER FAIL!==========");
 			return "add_form";
 		}
 		return "redirect:/result_add";
@@ -135,6 +141,7 @@ public class AdminController {
 		model.addAttribute("lsMarital", lsMarital);
 		model.addAttribute("lsCountry", lsCountry);
 		if(result.hasErrors()) {
+			log.error("==========MODIFY USER FAIL!==========");
 			return "edit_user";
 		}
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -153,9 +160,11 @@ public class AdminController {
 		System.out.println(user);
 		try {
 			userDao.updateUserInfor(user);
+			log.error("==========MODIFY USER SUCESSFULLY!==========");
 		} catch (Exception e) {
 			String message = e.getMessage();
 			model.addAttribute("message", message);
+			log.error("==========MODIFY USER FAIL!==========");
 			return "edit_user";
 		}
 		return "redirect:/result_modify";
