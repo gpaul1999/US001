@@ -3,7 +3,9 @@
 	<Appenders>
 		<Console name="ConsoleAppender" target="SYSTEM_OUT">
 			<PatternLayout
-				pattern="%d [%t] %-5level %logger{36} - %msg%n%throwable" />
+				pattern="%style{%date{DEFAULT}}{yellow}
+      %highlight{%-5level}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green} 
+      %message" />
 		</Console>
 	</Appenders>
 	<Loggers>
